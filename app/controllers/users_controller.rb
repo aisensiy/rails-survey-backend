@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :authorize, only: [:index, :me, :show]
   before_action :set_user, only: [:show]
 
   # GET /users
@@ -6,6 +7,10 @@ class UsersController < ApplicationController
     @users = User.all
 
     render json: @users
+  end
+
+  def me
+    render json: current_user
   end
 
   # GET /users/1
