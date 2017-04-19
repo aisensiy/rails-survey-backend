@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170418102749) do
+ActiveRecord::Schema.define(version: 20170419091845) do
+
+  create_table "surveys", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "title"
+    t.text     "sub_title"
+    t.text     "questions"
+    t.boolean  "publish_results", default: false
+    t.boolean  "receive_results", default: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["user_id_id"], name: "index_surveys_on_user_id_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "username"
