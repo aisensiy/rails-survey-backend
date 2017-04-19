@@ -1,6 +1,6 @@
 class SurveysController < ApplicationController
   before_action :authorize, only: [:create, :update, :destroy, :index]
-  before_action :set_user, only: [:create, :update, :destroy, :index]
+  before_action :set_user, only: [:create, :destroy, :index]
   before_action :set_survey, only: [:show, :update, :destroy]
 
   # GET /surveys
@@ -63,6 +63,6 @@ class SurveysController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def survey_params
-      params.permit(:publish_results, :receive_results, :title, :sub_title, :questions => [:type, :title, :placeholder, :objectId, :options => [:content, :objectId]])
+      params.permit(:publish_results, :receive_results, :title, :sub_title, :questions => [:_id, :type, :title, :placeholder, :objectId, :options => [:content, :objectId, :_id]])
     end
 end

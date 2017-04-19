@@ -75,6 +75,7 @@ GEM
       mini_portile2 (~> 2.1.0)
     puma (3.8.2)
     rack (2.0.1)
+    rack-cors (0.4.1)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.2)
@@ -135,6 +136,7 @@ DEPENDENCIES
   jwt
   listen (~> 3.0.5)
   puma (~> 3.0)
+  rack-cors
   rails (~> 5.0.2)
   spring
   spring-watcher-listen (~> 2.0.0)

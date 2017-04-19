@@ -8,8 +8,11 @@ class ApplicationController < ActionController::API
   def current_user
     token = request.headers["Authorization"] || access_token[:access_token]
     if !token.nil?
-      payload = (JWT.decode token, nil, false)[0]
-      @current_user ||= User.find(payload["id"])
+      begin
+        payload = JWT.decode(token, nil, false)[0]
+        @current_user ||= User.find(payload["id"])
+      rescue
+      end
     end
   end
 
