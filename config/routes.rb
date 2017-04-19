@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :surveys, only: [:show]
+  resources :surveys, only: [:show] do
+    resources :results, only: [:create, :destroy, :index]
+  end
+
   post 'login' => 'login#create'
 
   resources :users, only: [:create, :index, :show] do

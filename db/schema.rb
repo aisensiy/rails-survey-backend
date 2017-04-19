@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170419091845) do
+ActiveRecord::Schema.define(version: 20170419105840) do
+
+  create_table "results", force: :cascade do |t|
+    t.integer  "survey_id"
+    t.text     "result"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["survey_id"], name: "index_results_on_survey_id"
+  end
 
   create_table "surveys", force: :cascade do |t|
     t.integer  "user_id"
@@ -19,9 +27,9 @@ ActiveRecord::Schema.define(version: 20170419091845) do
     t.text     "questions"
     t.boolean  "publish_results", default: false
     t.boolean  "receive_results", default: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.index ["user_id_id"], name: "index_surveys_on_user_id_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.index [nil], name: "index_surveys_on_user_id_id"
   end
 
   create_table "users", force: :cascade do |t|
