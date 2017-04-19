@@ -1,4 +1,6 @@
 class SurveysController < ApplicationController
+  before_action :authorize, only: [:create, :update, :destroy, :index]
+  before_action :set_user, only: [:create, :update, :destroy, :index]
   before_action :set_survey, only: [:show, :update, :destroy]
 
   # GET /surveys
@@ -15,7 +17,12 @@ class SurveysController < ApplicationController
 
   # POST /surveys
   def create
-    @survey = Survey.new(survey_params)
+    @survey = Survey.new(
+      title: survey_params[:title],
+      sub_title: survey_params[:sub_title],
+      questions: survey_params[:questions].to_json,
+      user: @user
+    )
 
     if @survey.save
       render json: @survey, status: :created, location: @survey
@@ -26,7 +33,13 @@ class SurveysController < ApplicationController
 
   # PATCH/PUT /surveys/1
   def update
-    if @survey.update(survey_params)
+    @survey.title = survey_params[:title] if !survey_params[:title].nil?
+    @survey.sub_title = survey_params[:sub_title] if !survey_params[:sub_title].nil?
+    @survey.receive_results = survey_params[:receive_results] if !survey_params[:receive_results].nil?
+    @survey.publish_results = survey_params[:publish_results] if !survey_params[:publish_results].nil?
+    @survey.questions = survey_params[:questions].to_json if !survey_params[:questions].nil?
+
+    if @survey.save
       render json: @survey
     else
       render json: @survey.errors, status: :unprocessable_entity
@@ -44,8 +57,12 @@ class SurveysController < ApplicationController
       @survey = Survey.find(params[:id])
     end
 
+    def set_user
+      @user = User.find(params[:user_id])
+    end
+
     # Only allow a trusted parameter "white list" through.
     def survey_params
-      params.require(:survey).permit(:user_id_id, :title, :sub_title, :questions, :publish_results, :receive_results)
+      params.permit(:publish_results, :receive_results, :title, :sub_title, :questions => [:type, :title, :placeholder, :objectId, :options => [:content, :objectId]])
     end
 end
