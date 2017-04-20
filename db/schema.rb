@@ -12,12 +12,15 @@
 
 ActiveRecord::Schema.define(version: 20170419105840) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "results", force: :cascade do |t|
     t.integer  "survey_id"
     t.text     "result"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["survey_id"], name: "index_results_on_survey_id"
+    t.index ["survey_id"], name: "index_results_on_survey_id", using: :btree
   end
 
   create_table "surveys", force: :cascade do |t|
@@ -29,7 +32,7 @@ ActiveRecord::Schema.define(version: 20170419105840) do
     t.boolean  "receive_results", default: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
-    t.index [nil], name: "index_surveys_on_user_id_id"
+    t.index ["user_id"], name: "index_surveys_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -40,4 +43,6 @@ ActiveRecord::Schema.define(version: 20170419105840) do
     t.datetime "updated_at",      null: false
   end
 
+  add_foreign_key "results", "surveys"
+  add_foreign_key "surveys", "users"
 end
